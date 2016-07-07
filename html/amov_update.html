@@ -1,0 +1,27 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+    $('#btnCancel').click(function(){
+      window.location.replace('amovedit.php?i=<%$mov.id%>');
+    });
+
+    $('.rdoUpdate').change(function(){
+      if($('input[name="upby"]:checked').val()){
+        $('#btnSubmit').attr('disabled',false);
+      }else{
+        $('#btnSubmit').attr('disabled',true);
+      }
+    })
+  });
+</script>
+<form action="amovupdate.php?i=<%$mov.id%>" method="post" enctype="multipart/form-data">
+Update from?<br/>
+  <input type="radio" name="upby" class="rdoUpdate" value="CODE" />
+  CODE:&nbsp;<input type="text" name="code" id="upCode" value="<%$mov.code%>" /><br/>
+  <input type="radio" name="upby" class="rdoUpdate" value="URL" />
+  URL:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="url" id="upUrl" value="<%$mov.javlib%>" size="65" /><br/>
+  <input type="radio" name="upby" class="rdoUpdate" value="FILE" />
+  FILE:&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" name="file" id="upFile" /><br/>
+	<input type="checkbox" name="upcover" value="UPCOVER" /> Update Cover.<br/>
+  <input type="submit" name="submit" value="SUBMIT" id="btnSubmit" disabled />
+  <input type="button" value="CANCEL" id="btnCancel" />
+</form>

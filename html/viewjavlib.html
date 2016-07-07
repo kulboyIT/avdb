@@ -1,0 +1,159 @@
+<head>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+    $(".prevPage").click(function(){
+      p = <%$page%> - 1;
+      if(p < 1) { p = 1; }
+      redirect("<%$va%>"+p);
+    });
+
+    $(".prevTenPage").click(function(){
+      p = <%$page%> - 10;
+      if(p < 1) { p = 1; }
+      redirect("<%$va%>"+p);
+    });
+
+    $(".nextPage").click(function(){
+      p = <%$page%> + 1;
+      if(p > 50) { p = 50; }
+      redirect("<%$va%>"+p);
+    });
+
+    $(".nextTenPage").click(function(){
+      p = <%$page%> + 10;
+      if(p > 50) { p = 50; }
+      redirect("<%$va%>"+p);
+    });
+
+    $(".selPage").change(function(){
+      p = $(this).val();
+      redirect("<%$va%>"+p);
+    });
+
+    $(".selView").change(function(){
+      v = $(this).val();
+      redirect("?&v="+v);
+    });
+
+    $(".btplus").click(function(){
+      c = $(this).prop('id');
+      //alert(c);
+      window.open('amovnew.php?submit=ADD&code='+c);
+      $(this).css('visibility','hidden');
+    });
+    
+    $("#btnJavlib").click(function(){
+      url = "http://www.javlibrary.com/en/<%$vl%>&page=<%$page%>";
+      window.open(url,'_blank');
+    });
+
+  });
+
+  function redirect(url){
+	  window.location.replace(url);
+  }
+
+</script>
+<style type="text/css">
+
+	.atb {
+    padding: 5px;
+    border-radius: 5px;
+	}
+
+  .atb tr {
+
+  }
+
+  .atb td {
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .atb td.color0 {
+    background-color: #C9C9C9;
+	}
+
+	.atb td.color1 {
+		background-color: #33FF66;
+	}
+
+  .atb td.color2 {
+    background-color: #FFCC66;
+  }
+
+  .atb td.color3 {
+    background-color: #FF1414;
+  }
+
+  .atb input, select {
+    margin: 0px;
+    padding-left: 3px;
+    border: 0;
+    background: transparent;
+  }
+
+  .atb a {
+    text-decoration: none;
+  }
+
+	img {
+		border: 0px
+	}
+
+  img.picv {
+    margin: 3px;
+  }
+
+  img.btplus {
+    margin-bottom: -2px;
+  }
+
+	a {
+		color: #F00;
+		cursor: hand;
+	}
+
+  .thumbbox {
+    text-align: center;
+    background-color: #FFFFFF;
+    width: 216px;
+    border-radius: 5px;
+  }
+
+</style>
+</head>
+<div>
+View: <select class="selView">
+<%html_options options=$optView selected=$view%>
+</select>
+&nbsp;
+Page:&nbsp;
+<input type="button" class="prevPage" value="<<" />&nbsp;
+<select class="selPage">
+  <%html_options values=$pages output=$pages selected=$page%>
+</select>&nbsp;
+<input type="button" class="nextPage" value=">>" />&nbsp;
+<input type="image" src="html/images/javlib_button.png" id="btnJavlib" />
+</div>
+<div>
+<table class="atb" cellspacing="3">
+<tr>
+<%foreach $movs as $mov%>
+<td class="color<%$mov.have%>">
+  <div class="thumbbox">
+    <img src="<%$mov.pic%>" alt="<%$mov.title%>" class="picv" /><br/>
+    <%if $mov.have=='5'%>
+    <a href="http://www.javlibrary.com/en/vl_searchbyid.php?keyword=<%$mov.code%>" target="_blank"><%$mov.code%></a>
+    <img src="html/images/plus1.gif" alt="ADD to Database" class="btplus" id="<%$mov.code%>" />
+    <%else%>
+    <a href="amovedit.php?i=<%$mov.dbid%>" target="_blank"><%$mov.code%></a>
+    <%/if%>
+  </div>
+</td>
+<%if $mov@iteration % 5 == 0%></tr><tr><%/if%>
+<%/foreach%>
+</tr>
+</table>
+</div>

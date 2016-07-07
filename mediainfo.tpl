@@ -1,0 +1,2 @@
+General;Filesize=%FileSize/String%\r\nDuration=%Duration/String3%\r\nOverall=%OverallBitRate/String%\r\n
+Video;Format=%Format%\r\nBitrate=%BitRate/String%\r\nWidth=%Width%\r\nHeight=%Height%\r\nAspect=%DisplayAspectRatio/String%\r\nFramerate=%FrameRate/String%

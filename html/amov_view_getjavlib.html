@@ -1,0 +1,160 @@
+<head>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+    $(".prevPage").click(function(){
+      p = <%$page%> - 1;
+      if(p < 0) { p = 0; }
+      redirect("?<%$find%>&d=<%$display%>&p="+p);
+    });
+
+    $(".nextPage").click(function(){
+      p = <%$page%> + 1;
+      if(p > <%$lastpage%>) { p = <%$lastpage%>; }
+      redirect("?<%$find%>&d=<%$display%>&p="+p);
+    });
+
+    $(".selDisplay").change(function(){
+      d = $(this).val();
+      redirect("?<%$find%>&p=<%$page%>&d="+d);
+    });
+
+    $('.btnForceUpdate').click(function(){
+      if(true == confirm("You sure to force update?")){
+        redirect('?<%$find%>&p=<%$page%>&d=<%$display%>&update=FORCE')
+      }
+    })
+
+	});
+
+  function redirect(url){
+	  window.location.replace(url);
+  }
+
+</script>
+<style type="text/css">
+
+  .color0 {
+    background-color: #C9C9C9;
+	}
+
+	.color1 {
+		background-color: #33FF66;
+	}
+
+  .color2 {
+    background-color: #FFCC66;
+  }
+
+  .color3 {
+    background-color: #FF1414;
+  }
+
+	.atb {
+    padding: 5px;
+	}
+
+  .atb tr {
+    height: 30px;
+  }
+
+  .atb td {
+    background-color: #FFFFFF;
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+  }
+
+  .atb input, select {
+    margin: 0px;
+    padding-left: 3px;
+    border: 0;
+    background: transparent;
+  }
+
+  .atb a {
+    text-decoration: none;
+  }
+
+	img {
+		border: 0px;
+		margin: 0px;
+	}
+
+	a {
+		color: #F00;
+		cursor: hand;
+	}
+
+  #pageNavi {
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+  }
+
+</style>
+</head>
+<div id="pageNavi">
+
+Result: <%$num%> Movies
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input type="button" class="prevPage" value="<" />&nbsp;
+Page&nbsp;<%$page+1%>/<%$lastpage + 1%>&nbsp;
+<input type="button" class="nextPage" value=">" />
+&nbsp;&nbsp;&nbsp;
+
+Display&nbsp;
+<select class="selDisplay">
+	<%html_options options=$displays selected=$display%>
+</select>
+&nbsp;&nbsp;&nbsp;
+
+<input type="button" class="btnForceUpdate" value="!!FORCE UPDATE!!" <%if $display=='1'%>disabled<%/if%>/>
+
+</div>
+
+<div>
+
+<%foreach $movs as $mov%>
+<div class="color<%$mov.have%>">
+	<table class="atb" cellspacing="3">
+  <tr>
+    <td colspan="4">Code: <a href="amovedit.php?i=<%$mov.id%>" target="_blank"><%$mov.code%></a></td>
+  <%if $mov.notfound != 'NOTFOUND'%>
+  </tr>
+  <tr>
+    <td width="250">Studio: <%$mov.studio%></td>
+    <td width="250">Label: <%$mov.label%></td>
+    <td width="250">Release: <%$mov.reldate%></td>
+    <td width="250"><a href="<%$mov.javlib%>" target="_blank">JAVLIB</a></td>
+  </tr>
+  <tr>
+  	<td colspan="4">Title: <%$mov.title%></td>
+  </tr>
+  <tr>
+    <td colspan="2">Title2: <%$mov.title2%></td>
+    <td colspan="2">Actress: <%$mov.actress%></td>
+  </tr>
+  <tr>
+  	<td colspan="4">Genre: <%$mov.genre%></td>
+  </tr>
+  <tr>
+  <%/if%>
+  	<td colspan="4">Result: <%$mov.result%></td>
+  </tr>
+  </table>
+</div>
+<%/foreach%>
+
+</div>
+
+<div id="pageNavi">
+
+Result: <%$num%> Movies
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input type="button" class="prevPage" value="<" />&nbsp;
+Page&nbsp;<%$page+1%>/<%$lastpage + 1%>&nbsp;
+<input type="button" class="nextPage" value=">" />
+&nbsp;&nbsp;&nbsp;
+
+</div>

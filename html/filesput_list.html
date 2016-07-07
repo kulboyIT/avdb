@@ -1,0 +1,104 @@
+<style type="text/css">
+  .list {                                                  
+    font-size: 14px;
+    border: 0px;
+    border-collapse: collapse;
+    margin: 5px;
+  }
+
+  .list th,td {
+    padding: 2px 5px 2px 5px;
+    border: 1px #666666;
+  }
+
+  .cv {
+    background-color: #00FF00;
+  }
+
+  .ss {
+    background-color: #00FFFF;
+  }
+
+  .vdo {
+    background-color: #FFFF00;
+  }
+
+  .cancle {
+    background-color: #CCCCCC;
+  }
+
+  input[type='text'], select {
+    font-family : "Courier New","Lucida Console",Tahoma;
+    font-size: 14px;
+    margin: 0px;
+    padding-left: 3px;
+    border: 0;
+    background: transparent;
+  }
+
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $("input[type='text']").focus(function(){
+      $(this).css('background','#F7F7F7');
+    });
+
+    $("input[type='text']").blur(function(){
+      $(this).css('background','transparent');
+    });
+
+    $("input[type='checkbox']").click(function(){
+      $(this).parent().parent().toggleClass('cancle');
+    });
+
+  });
+</script>
+
+<form action="filesput.php" method="get">
+  Store:<input type="text" name="store" value="<%$store%>" />&nbsp;
+  Path:<input type="text" name="path" value="<%$path%>" />&nbsp;
+  Actress:<input type="text" name="actid" value="<%$actid%>" />&nbsp;
+  <input type="submit" name="submit" value="submit" />
+</form>
+
+<%foreach $dirs as $dir%>
+<a href="filesput.php?store=<%$store%>&path=<%$dir%>&actid=<%$actid%>" target="_blank"><%$dir@key%></a>&nbsp;
+<%/foreach%>
+<form action="filesput.php" method="post">
+<%$actress%>
+<input type="hidden" name="store" value="<%$store%>" />
+<input type="hidden" name="actid" value="<%$actid%>" />
+<input type="hidden" name="path" value="<%$path%>" />  
+<table class="list">
+<tr>
+  <th colspan="2">CODE</th>
+  <th>EXTEN</th>
+  <th>TYPE</th>
+  <th>INFO</th>
+  <th>DBINFO</th>
+  <th>FILENAME</th>
+</tr>
+<%foreach $files as $file%>
+<tr class="<%if $file.checked=='chk' %><%$file.ftype%><%else%>cancle<%/if%>">
+  <td>[<%$file@iteration%>]<input type="checkbox" name="fcheck[<%$file@iteration%>]" value="x" <%if $file.checked=='chk' %>checked <%/if%>/></td>
+  <td>
+    <input type="text" name="fcode[<%$file@iteration%>]" id="txtCode" value="<%$file.fcode%>" size="15"/>
+  </td>
+  <td>
+    <input type="text" name="fext[<%$file@iteration%>]" id="txtExt" value="<%$file.fexten%>" size="5"/>
+  </td>
+  <td>
+    <%html_options name="ftype[<%$file@iteration%>]" id="ftype" options=$types selected=$file.ftype%>
+  </td>
+  <td><%$file.finfo%></td>
+  <td><%$file.dbinfo%></td>
+  <td>
+    <input type="text" name="fname[<%$file@iteration%>]" id="txtName" value="<%$file.fname%>" size="60" />
+  </td>
+</tr>
+<%/foreach%>
+</table>
+<input type="submit" name="submit" value="Process" />
+</form>

@@ -1,0 +1,18 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+    $('#txtCode').keyup(function(){
+      val = $(this).val();
+      if(val == null || val == ''){
+        $('#btnSubmit').attr('disabled',true);
+      }else{
+        $('#btnSubmit').attr('disabled',false);
+      }
+    });
+  });
+</script>
+<form action="amovnew.php" method="get">
+  CODE: 
+  <input type="text" name="code" id="txtCode" value="" />
+  <input type="submit" name="submit" id="btnSubmit" value="ADD" disabled />
+  <input type="checkbox" name="manual" value="MANUAL" />Manual?
+</form>

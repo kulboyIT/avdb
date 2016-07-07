@@ -1,0 +1,256 @@
+<head>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$(".cvd").click(function(){
+			img = $("<img src='bp_picture.php?show="+$(this).attr('id')+"' title='"+$(this).attr('title')+"' />");
+      img.load(function(){
+        imgw = $(this).width();
+        imgh = $(this).height();
+        //alert(imgw+','+imgh)
+        $("#topbox")
+          .css("width",imgw)
+          .css("height",imgh)
+          .css("margin-left",(imgw/2)-imgw)
+          .css("margin-top",(imgh/2)-imgh);
+      });
+			img.appendTo("#topbox");
+      cap = $("<figcaption>"+$(this).attr('title')+"</figcaption>");
+      cap.appendTo("#topbox");
+			$("#backbox").show(1);
+			$("#topbox").fadeIn(500);
+		});
+		
+		$("#backbox").click(function(){
+			$("#topbox").fadeOut(100,function(){
+			  $("#topbox").html("");
+			  $("#backbox").hide(1);
+			});
+		});
+
+    $(".prevPage").click(function(){
+      p = <%$page%> - 1;
+      if(p < 0) { p = 0; }
+      redirect("?<%$find%>&v=<%$view%>&o=<%$order%>&l=<%$limit%>&r=<%$sort%>&p="+p);
+    });
+
+    $(".prevTenPage").click(function(){
+      p = <%$page%> - 10;
+      if(p < 0) { p = 0; }
+      redirect("?<%$find%>&v=<%$view%>&o=<%$order%>&l=<%$limit%>&r=<%$sort%>&p="+p);
+    });
+
+    $(".nextPage").click(function(){
+      p = <%$page%> + 1;
+      if(p > <%$lastpage%>) { p = <%$lastpage%>; }
+      redirect("?<%$find%>&v=<%$view%>&o=<%$order%>&l=<%$limit%>&r=<%$sort%>&p="+p);
+    });
+
+    $(".nextTenPage").click(function(){
+      p = <%$page%> + 10;
+      if(p > <%$lastpage%>) { p = <%$lastpage%>; }
+      redirect("?<%$find%>&v=<%$view%>&o=<%$order%>&l=<%$limit%>&r=<%$sort%>&p="+p);
+    });
+
+    $(".selPage").change(function(){
+      p = $(this).val();
+      redirect("?<%$find%>&v=<%$view%>&o=<%$order%>&l=<%$limit%>&r=<%$sort%>&p="+p);
+    });
+
+    $("#selView").change(function(){
+      v = $(this).val();
+      redirect("?<%$find%>&p=<%$page%>&l=<%$limit%>&r=<%$sort%>&o=<%$order%>&v="+v);
+    });
+  <%if $orders != ''%>
+    $("#selOrder").change(function(){
+      o = $(this).val();
+      redirect("?<%$find%>&v=<%$view%>&p=<%$page%>&l=<%$limit%>&r=<%$sort%>&o="+o);
+    });
+  <%/if%>
+  <%if $sorts != ''%>
+    $("#selSort").change(function(){
+      r = $(this).val();
+      redirect("?<%$find%>&v=<%$view%>&p=<%$page%>&o=<%$order%>&l=<%$limit%>&r="+r);
+    });
+  <%/if%>
+    $("#selLimit").change(function(){
+      l = $(this).val();
+      redirect("?<%$find%>&v=<%$view%>&p=<%$page%>&o=<%$order%>&r=<%$sort%>&l="+l);
+    });
+
+	});
+
+  function redirect(url){
+	  window.location.replace(url);
+  }
+
+</script>
+<style type="text/css">
+
+  .color0 {
+    background-color: #C9C9C9;
+	}
+
+	.color1 {
+		background-color: #33FF66;
+	}
+
+  .color2 {
+    background-color: #FFCC66;
+  }
+
+  .color3 {
+    background-color: #FF1414;
+  }
+
+	.atb {
+    padding: 5px;
+	}
+
+  .atb tr {
+    height: 30px;
+  }
+
+  .atb td {
+    background-color: #FFFFFF;
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+  }
+
+  .atb input, select {
+    margin: 0px;
+    padding-left: 3px;
+    border: 0;
+    background: transparent;
+  }
+
+  .atb a {
+    text-decoration: none;
+  }
+
+	img {
+		border: 0px;
+		margin: 0px;
+	}
+
+	a {
+		color: #F00;
+		cursor: hand;
+	}
+
+	#backbox {
+		position: fixed;
+		z-index: 15;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		opacity: 0.95;
+		display: none;
+		background-color: #999;
+	}
+
+	#topbox {
+		position: fixed;
+		z-index: 16;
+    top: 50%;
+    left: 50%;
+    padding: 30px;
+		display: none;
+		background-color: #FFF;
+		border-radius: 5px;
+	}
+
+  #pageNavi {
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+  }
+
+</style>
+</head>
+<figure id="topbox"></figure>
+<div id="backbox"></div>
+
+<div id="pageNavi">
+
+Result: <%$num%> Movies
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input type="button" class="prevTenPage" value="<<" />
+<input type="button" class="prevPage" value="<" />
+Page&nbsp;
+<select iclass="selPage">
+  <%html_options options=$pages selected=$page%>
+</select>/<%$lastpage + 1%>
+<input type="button" class="nextPage" value=">" />
+<input type="button" class="nextTenPage" value=">>" />
+&nbsp;&nbsp;&nbsp;
+
+View&nbsp;
+<select id="selView">
+	<%html_options options=$views selected=$view%>
+</select>
+&nbsp;&nbsp;&nbsp;
+<%if $orders != ''%>
+Order&nbsp;
+<select id="selOrder">
+	<%html_options options=$orders selected=$order%>
+</select>
+&nbsp;&nbsp;&nbsp;
+<%/if%>
+<%if $sorts != ''%>
+Sort&nbsp;
+<select id="selSort">
+	<%html_options options=$sorts selected=$sort%>
+</select>
+&nbsp;&nbsp;&nbsp;
+<%/if%>
+Display&nbsp;
+<select id="selLimit">
+	<%html_options output=$limits values=$limits selected=$limit %>
+</select>
+/Page
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+<div>
+
+<%foreach $amovs as $mov%>
+<div class="color<%$mov.have%>">
+	<table class="atb" cellspacing="3">
+  <tr>
+  	<td rowspan="3" width="130"><img class="cvd" src="bp_picture.php?list=<%$mov.cover%>" id="<%$mov.cover%>" title="<%$mov.cvinfo%>" /></td>
+  	<td width="250">
+      Code: <a href="amovedit.php?i=<%$mov.id%>" target="_blank"><%$mov.code%></a>&nbsp;
+    </td>
+    <td width="250">ID: <%$mov.id%></td>
+    <td width="250">Region: <%$mov.region%></td>
+    <td width="250">Studio: <%$mov.studio%></td>
+  </tr>
+  <tr>
+  	<td colspan="3">Title: <%$mov.title%></td>
+    <td>Release: <%$mov.reldate%></td>
+  </tr>
+  <tr>
+    <td colspan="3">Actress: <%$mov.actress%></td>
+    <td>Score: <%$mov.score%></td>
+  </tr>
+  </table>
+</div>
+<%/foreach%>
+
+</div>
+
+<div id="pageNavi">
+
+<input type="button" class="prevTenPage" value="<<" />
+<input type="button" class="prevPage" value="<" />
+Page&nbsp;
+<select class="selPage">
+  <%html_options options=$pages selected=$page%>
+</select>/<%$lastpage + 1%>
+<input type="button" class="nextPage" value=">" />
+<input type="button" class="nextTenPage" value=">>" />
+
+</div>

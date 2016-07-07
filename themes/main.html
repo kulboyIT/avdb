@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%$smarty.const.HEAD_TITLE%></title>
+    <meta charset="utf-8">
+    <script src="jquery-2.1.0.min.js"></script>
+    <script src="<%$smarty.const.THEMES%>/script.js"></script>
+    <link href="<%$smarty.const.THEMES%>/styles.css" rel="stylesheet">
+    <link href="<%$smarty.const.THEMES%>/main.css" rel="stylesheet">
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#btnSearch").click(function(){
+          f = $("#search").val();
+          redirect("amov.php?ct="+f);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <%if $DEBUG_MESSAGE%>
+    <details id="debug">
+      <summary>!!!DEBUG MODE!!!</summary>
+      <%$DEBUG_MESSAGE%>
+    </details>
+    <%/if%>
+
+    <div id="container" style="width: 1200px; margin:0 auto;">
+
+      <div id="header">
+        <h1><%$smarty.const.WEB_TITLE%></h1>
+        <div class="searchbox">
+          <img src="<%$smarty.const.THEMES%>/images/find_r.jpg" alt="Search Movie from CODE and TITLE" />
+          <input type="text" value="" id="search" />
+          <input type="button" value="FIND" id="btnSearch" />
+        </div>
+        <div id='cssmenu'>
+          <ul>
+           <li class='active'><a href='#'><span>Home</span></a></li>
+           <li class='has-sub'><a href='#'><span>AV Movies</span></a>
+              <ul>
+                 <li><a href='amov.php?v=list'><span>List</span></a></li>
+                 <li><a href='amov.php?v=thumb'><span>Thumb</span></a></li>
+                 <li><a href='amov.php?v=detail'><span>Detail</span></a></li>
+                 <li><a href='amovnewent.php'><span>New Entries</span></a></li>
+                 <li class='last'><a href='group.php'><span>Group</span></a></li>
+              </ul>
+           </li>
+					 <li class='has-sub'><a href='#'><span>Store</span></a>
+						 <ul>
+							<li><a href='amovstore.php?st=HDX01'><span>HDX01</span></a></li>
+							<li><a href='amovstore.php?st=HDX02'><span>HDX02</span></a></li>
+							<li><a href='amovstore.php?st=HDX03'><span>HDX03</span></a></li>
+							<li><a href='amovstore.php?st=HDX04'><span>HDX04</span></a></li>
+							<li><a href='amovstore.php?st=HDX05'><span>HDX05</span></a></li>
+							<li class='last'><a href='amovstore.php?st=HDX06'><span>HDX06</span></a></li>
+						</ul>
+					 </li>
+           <li class='has-sub'><a href='#'><span>AV Actress</span></a>
+              <ul>
+                 <li><a href='actrs.php'><span>List</span></a></li>
+                 <li class='last'><a href='actrs.php?fo=1'><span>Following</span></a></li>
+              </ul>
+           </li>
+           <li class='has-sub'><a href='#'><span>Tools</span></a>
+              <ul>
+                 <li><a href='amovnew.php' target='_blank'><span>Add Movie</span></a></li>
+                 <li><a href='viewjavlib.php' target='_blank'><span>View JAVLIB</span></a></li> 
+                 <li><a href='filesput.php'><span>Import Movies</span></a></li>
+                 <li class='last'><a href='actrsupdatemovies.php'><span>Update Actress Movies</span></a></li>
+              </ul>
+           </li>
+           <li class='last'><a href='#'><span>About</span></a></li>
+        </ul>
+      </div>
+
+      </div>
+
+      <div id="content">
+        <%$BODY_CONTENT%>
+      </div>
+
+      <div id="footer">
+        <p align="center">Powered By LuZeFer</p>
+      </div>
+
+    </div>
+
+  </body>
+</html>

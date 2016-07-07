@@ -1,0 +1,36 @@
+<style type="text/css">
+  .list {                                                  
+    font-size: 13px;
+    border: 0px;
+    border-collapse: collapse;
+  }
+
+  .cv {
+    background-color: #00FF00;
+  }
+
+  .ss {
+    background-color: #00FFFF;
+  }
+
+  .vdo {
+    background-color: #FFFF00;
+  }
+
+  .cancle {
+    background-color: #CCCCCC;
+  }
+
+</style>
+
+<table class="list">
+<%foreach $out as $file%>
+<tr class="<%$file.ftype%>">
+  <td>Code: <%$file.fcode%></td>
+  <td>Path: <%$file.ffile%></td>
+  <td>Result: <%$file.filemsg%><%$file.amovmsg%><%$file.time%></td>
+</tr>
+<%/foreach%>
+</table>
+Total: <%$times%> sec&nbsp;
+<input type="button" value="CLOSE" onclick="window.close()" />

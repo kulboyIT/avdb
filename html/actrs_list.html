@@ -1,0 +1,305 @@
+<head>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$(".cvd").click(function(){
+			img = $("<img src='bp_picture.php?show="+$(this).attr('id')+"' title='"+$(this).attr('title')+"' />");
+      img.load(function(){
+        imgw = $(this).width();
+        imgh = $(this).height();
+        //alert(imgw+','+imgh)
+        $("#topbox")
+          .css("width",imgw)
+          .css("height",imgh)
+          .css("margin-left",(imgw/2)-imgw)
+          .css("margin-top",(imgh/2)-imgh);
+      });
+			img.appendTo("#topbox");
+      cap = $("<figcaption>"+$(this).attr('title')+"</figcaption>");
+      cap.appendTo("#topbox");
+			$("#backbox").show(1);
+			$("#topbox").fadeIn(500);
+		});
+
+		$("#backbox").click(function(){
+			$("#topbox").fadeOut(100,function(){
+			  $("#topbox").html("");
+			  $("#backbox").hide(1);
+			});
+		});
+
+    $("#prevPage").click(function(){
+      p = <%$page%> - 1;
+      if(p < 0) { p = 0; }
+      redirect("?<%$find%>&o=<%$order%>&r=<%$sort%>&p="+p);
+    });
+
+    $("#prevTenPage").click(function(){
+      p = <%$page%> - 10;
+      if(p < 0) { p = 0; }
+      redirect("?<%$find%>&o=<%$order%>&r=<%$sort%>&p="+p);
+    });
+
+    $("#nextPage").click(function(){
+      p = <%$page%> + 1;
+      if(p > <%$lastpage%>) { p = <%$lastpage%>; }
+      redirect("?<%$find%>&o=<%$order%>&r=<%$sort%>&p="+p);
+    });
+
+    $("#nextTenPage").click(function(){
+      p = <%$page%> + 10;
+      if(p > <%$lastpage%>) { p = <%$lastpage%>; }
+      redirect("?<%$find%>&o=<%$order%>&r=<%$sort%>&p="+p);
+    });
+
+    $("#selPage").change(function(){
+      p = $(this).val();
+      redirect("?<%$find%>&o=<%$order%>&r=<%$sort%>&p="+p);
+    });
+
+    $("#selOrder").change(function(){
+      o = $(this).val();
+      redirect("?<%$find%>&p=<%$page%>&r=<%$sort%>&o="+o);
+    });
+
+    $("#selSort").change(function(){
+      r = $(this).val();
+      redirect("?<%$find%>&p=<%$page%>&o=<%$order%>&r="+r);
+    });
+
+    $("#btnAFind").click(function(){
+      f = $("#Afind").val();
+      redirect("?na="+f);
+    });
+
+    $("#Afind").keyup(function(){
+      var val = $(this).val();
+      if(val.length > 1){
+        val = encodeURIComponent(val);
+        x = $(this).offset().left;
+        y = $(this).offset().bottom;
+        $("#selList").css("left",x).css("top",y);
+        $("#selList").load('bp_searchavname.php?result=edit&search='+val,function(res,status,xhr){
+          //alert(xhr.statusText+'\n'+res);
+          $(this).css('display','block');
+        });
+      }else{
+        $("#selList").css('display','none');
+      }
+    });
+
+    $(".star").click(function(){
+      url = 'http://www.javlibrary.com/en/vl_star.php?&mode=2&s='+$(this).attr('id');
+      window.open(url,'_blank');
+    });
+
+	});
+
+  function nameAdd(id,notuse){
+    $("#selList").css('display','none');
+    $("#find").val("");
+    url = "actrsview.php?a="+id;
+    window.open(url,"_blank");
+  }
+
+  function redirect(url){
+	  window.location.replace(url);
+  }
+
+</script>
+<style type="text/css">
+
+	.atb {
+	  background-color: #33FF66;
+    padding: 5px;
+    border-radius: 5px;
+	}
+
+  .atb tr {
+    height: 30px;
+  }
+
+  .atb td {
+    background-color: #FFFFFF;
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+  }
+
+  .atb a {
+    text-decoration: none;
+  }
+
+	img {
+		border: 0px;
+		margin: 3px;
+    width: 130px;
+    height: 130px;
+	}
+
+  img.star {
+    border: 0px;
+    margin-bottom: -5px;
+    width: 20px;
+    height: 20px;
+  }
+
+	a {
+		color: #F00;
+		cursor: hand;
+	}
+
+	#backbox {
+		position: fixed;
+		z-index: 15;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		opacity: 0.95;
+		display: none;
+		background-color: #999;
+	}
+
+	#topbox {
+		position: fixed;
+		z-index: 16;
+    top: 50%;
+    left: 50%;
+    padding: 30px;
+		display: none;
+		background-color: #FFF;
+		border-radius: 5px;
+	}
+
+  #pageNavi {
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+  }
+
+  #btnAFind {
+    margin-left: -7px;
+  }
+
+  #nameList {
+    width: 250px;
+    background: transparent;
+    margin-bottom: 5px;
+  }
+
+  .loader {
+    width: 16px;
+    height: 16px;
+    margin-bottom: -4px;
+    display: none;
+  }
+
+  .actslist {
+    position: absolute;
+    display: none;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    z-index: 1;
+    height: 140px;
+    overflow-y: scroll;
+    background-color: #FFFFFF;
+    width: 170px;
+  }
+
+  .actslist ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .actslist li {
+    display: block;
+    clear: both;
+    width: 150px;
+    background-color: #FFFFFF;
+    color: #474747;
+    padding: .2em .3em;
+  }
+
+  .actslist a {
+    display: block;
+    text-decoration: none;
+    color: #474747;
+    text-align: left;
+    border-radius: 4px;
+    padding-left: 4px;
+  }
+
+  .actslist a:hover{
+    color: #474747;
+    background-color: #C9C9C9;
+    background-image: none;
+  }
+
+</style>
+</head>
+<figure id="topbox"></figure>
+<div id="backbox"></div>
+
+<div id="pageNavi">
+
+Result: <%$num%> Actress in DB
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<input type="button" id="prevTenPage" value="<<" />
+<input type="button" id="prevPage" value="<" />
+Page&nbsp;
+<select id="selPage">
+  <%html_options options=$pages selected=$page%>
+</select>/<%$lastpage + 1%>
+<input type="button" id="nextPage" value=">" />
+<input type="button" id="nextTenPage" value=">>" />
+&nbsp;&nbsp;&nbsp;
+
+Order&nbsp;
+<select id="selOrder">
+	<%html_options options=$orders selected=$order%>
+</select>
+&nbsp;&nbsp;&nbsp;
+
+Sort&nbsp;
+<select id="selSort">
+	<%html_options options=$sorts selected=$sort%>
+</select>
+&nbsp;&nbsp;&nbsp;
+
+<input type="text" value="" id="Afind" />
+<div class="actslist" id="selList"></div>
+<input type="button" value="FIND" id="btnAFind" />
+
+</div>
+
+<div>
+<table border="0">
+<tr>
+<%foreach $actrs as $actr%>
+<td>
+  <table class="atb" cellspacing="3">
+  <tr>
+  	<td rowspan="4" width="140"><img src="bp_picture.php?actrt=<%$actr.id%>" /></td>
+  	<td width="200">
+      <a href="actrsview.php?a=<%$actr.id%>" target="_blank"><%$actr.name%></a>
+      <%if $actr.follow == 1%><img src="html/images/star.jpg" class="star" alt="Follow her!" id="<%$actr.javlibcode%>" /><%/if%>
+    </td>
+  </tr>
+  <tr>
+  	<td colspan="3">Age: <%$actr.age%> [<%$actr.birthdate%>]</td>
+  </tr>
+  <tr>
+    <td><%$actr.size%></td>
+  </tr>
+  <tr>
+    <td><%$actr.movies%> Movie(s)</td>
+  </tr>
+  </table>
+</td>
+<%if $actr@iteration % 3 == 0%></tr><tr><%/if%>
+<%/foreach%>
+</tr>
+</table>
+</div>
